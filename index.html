@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5區香菇溫室控制面板</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0d1117;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    svg {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="1024" height="768">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#141820"/>
+      <stop offset="100%" stop-color="#1A1F2C"/>
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0F131A"/>
+      <stop offset="100%" stop-color="#1C2333"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#252D3D"/>
+      <stop offset="100%" stop-color="#1D2330"/>
+    </linearGradient>
+    <linearGradient id="gaugeGrad" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="70%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#EF4444"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <style>
+    .txt-title { font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif; font-size: 15px; font-weight: 700; fill: #FFFFFF; }
+    .txt-sub { font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif; font-size: 11px; fill: #94A3B8; }
+    .txt-num { font-family: "Consolas", "Courier New", monospace; font-size: 22px; font-weight: 700; fill: #F8FAFC; }
+    .txt-unit { font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; font-size: 11px; fill: #64748B; font-weight: normal; }
+    .txt-badge { font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; font-size: 10px; font-weight: 600; }
+    .tag-incubation { fill: #8B5CF6; }
+    .tag-coloration { fill: #EC4899; }
+    .tag-induction { fill: #3B82F6; }
+    .tag-fruiting { fill: #10B981; }
+    .tag-drying { fill: #F59E0B; }
+  </style>
+
+  <!-- 1. 主畫布底色 -->
+  <rect width="1024" height="768" fill="url(#bgGrad)"/>
+
+  <!-- 2. 頂部狀態列 (Header) -->
+  <rect width="1024" height="52" fill="url(#headerGrad)"/>
+  <line x1="0" y1="52" x2="1024" y2="52" stroke="#2E384D" stroke-width="1.5"/>
+
+  <circle cx="28" cy="26" r="10" fill="#10B981" opacity="0.2"/>
+  <circle cx="28" cy="26" r="5" fill="#10B981"/>
+  <text x="46" y="31" class="txt-title" font-size="16">香菇溫室 5區智慧環控中樞</text>
+  <text x="245" y="31" class="txt-sub" fill="#64748B">| cMT-SVRX Headless Controller</text>
+
+  <!-- 頂部即時指標 -->
+  <rect x="520" y="10" width="135" height="32" rx="5" fill="#141A24" stroke="#2A3447"/>
+  <text x="530" y="24" class="txt-sub">即時總功率</text>
+  <text x="530" y="38" class="txt-num" font-size="13" fill="#38BDF8">34.2 <tspan class="txt-unit">kW</tspan></text>
+
+  <rect x="665" y="10" width="135" height="32" rx="5" fill="#141A24" stroke="#2A3447"/>
+  <text x="675" y="24" class="txt-sub">今日累計電費</text>
+  <text x="675" y="38" class="txt-num" font-size="13" fill="#FBBF24">NT$ 860</text>
+
+  <rect x="810" y="10" width="200" height="32" rx="5" fill="#141A24" stroke="#2A3447"/>
+  <circle cx="825" cy="26" r="4" fill="#10B981"/>
+  <text x="836" y="24" class="txt-sub">MOXA 閘道 / NTP 連線正常</text>
+  <text x="836" y="38" class="txt-num" font-size="12" fill="#E2E8F0">2026-09-26 14:35:10</text>
+
+  <!-- ==================== 第一列卡片 ==================== -->
+
+  <!-- 第 1 區卡片：走菌期 -->
+  <g transform="translate(15, 66)">
+    <rect width="235" height="292" rx="8" fill="url(#cardGrad)" stroke="#2E384D" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="235" height="38" rx="8" fill="#1E2638"/>
+    <text x="14" y="24" class="txt-title">第 1 區</text>
+    <rect x="155" y="10" width="66" height="18" rx="4" fill="#8B5CF6" opacity="0.25"/>
+    <text x="188" y="23" text-anchor="middle" class="txt-badge tag-incubation">走菌期</text>
+    
+    <rect x="12" y="48" width="211" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="22" y="66" class="txt-sub">當前室溫 (目標 24.0°C)</text>
+    <text x="22" y="90" class="txt-num">23.8 <tspan class="txt-unit">°C</tspan></text>
+
+    <rect x="12" y="104" width="211" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="22" y="122" class="txt-sub">環境濕度 (目標 65.0%)</text>
+    <text x="22" y="146" class="txt-num">66.2 <tspan class="txt-unit">% RH</tspan></text>
+
+    <rect x="12" y="160" width="102" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="20" y="176" class="txt-sub">CO2 濃度</text>
+    <text x="20" y="200" class="txt-num" font-size="16">3,200 <tspan class="txt-unit">ppm</tspan></text>
+
+    <rect x="121" y="160" width="102" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="129" y="176" class="txt-sub">蒸發器 ΔP</text>
+    <text x="129" y="200" class="txt-num" font-size="16" fill="#38BDF8">28 <tspan class="txt-unit">Pa</tspan></text>
+
+    <rect x="12" y="222" width="211" height="58" rx="5" fill="#161D2B"/>
+    <text x="22" y="238" class="txt-sub">執行機構運轉狀態</text>
+    <rect x="22" y="248" width="42" height="22" rx="3" fill="#1E293B"/>
+    <text x="43" y="263" text-anchor="middle" class="txt-badge" fill="#64748B">冷氣</text>
+    <rect x="72" y="248" width="42" height="22" rx="3" fill="#10B981" opacity="0.2"/>
+    <text x="93" y="263" text-anchor="middle" class="txt-badge" fill="#10B981">送風</text>
+    <rect x="122" y="248" width="42" height="22" rx="3" fill="#1E293B"/>
+    <text x="143" y="263" text-anchor="middle" class="txt-badge" fill="#64748B">噴霧</text>
+    <rect x="172" y="248" width="42" height="22" rx="3" fill="#1E293B"/>
+    <text x="193" y="263" text-anchor="middle" class="txt-badge" fill="#64748B">全黑</text>
+  </g>
+
+  <!-- 第 2 區卡片：轉色期 -->
+  <g transform="translate(265, 66)">
+    <rect width="235" height="292" rx="8" fill="url(#cardGrad)" stroke="#2E384D" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="235" height="38" rx="8" fill="#1E2638"/>
+    <text x="14" y="24" class="txt-title">第 2 區</text>
+    <rect x="155" y="10" width="66" height="18" rx="4" fill="#EC4899" opacity="0.25"/>
+    <text x="188" y="23" text-anchor="middle" class="txt-badge tag-coloration">轉色期</text>
+    
+    <rect x="12" y="48" width="211" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="22" y="66" class="txt-sub">當前室溫 (目標 22.0°C)</text>
+    <text x="22" y="90" class="txt-num">21.5 <tspan class="txt-unit">°C</tspan></text>
+
+    <rect x="12" y="104" width="211" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="22" y="122" class="txt-sub">環境濕度 (目標 80.0%)</text>
+    <text x="22" y="146" class="txt-num">78.4 <tspan class="txt-unit">% RH</tspan></text>
+
+    <rect x="12" y="160" width="102" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="20" y="176" class="txt-sub">CO2 濃度</text>
+    <text x="20" y="200" class="txt-num" font-size="16">1,850 <tspan class="txt-unit">ppm</tspan></text>
+
+    <rect x="121" y="160" width="102" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="129" y="176" class="txt-sub">蒸發器 ΔP</text>
+    <text x="129" y="200" class="txt-num" font-size="16" fill="#38BDF8">32 <tspan class="txt-unit">Pa</tspan></text>
+
+    <rect x="12" y="222" width="211" height="58" rx="5" fill="#161D2B"/>
+    <text x="22" y="238" class="txt-sub">執行機構運轉狀態</text>
+    <rect x="22" y="248" width="42" height="22" rx="3" fill="#10B981" opacity="0.2"/>
+    <text x="43" y="263" text-anchor="middle" class="txt-badge" fill="#10B981">製冷</text>
+    <rect x="72" y="248" width="42" height="22" rx="3" fill="#10B981" opacity="0.2"/>
+    <text x="93" y="263" text-anchor="middle" class="txt-badge" fill="#10B981">送風</text>
+    <rect x="122" y="248" width="42" height="22" rx="3" fill="#10B981" opacity="0.2"/>
+    <text x="143" y="263" text-anchor="middle" class="txt-badge" fill="#10B981">噴霧</text>
+    <rect x="172" y="248" width="42" height="22" rx="3" fill="#EAB308" opacity="0.2"/>
+    <text x="193" y="263" text-anchor="middle" class="txt-badge" fill="#EAB308">補光</text>
+  </g>
+
+  <!-- 第 3 區卡片：催蕾期 -->
+  <g transform="translate(515, 66)">
+    <rect width="235" height="292" rx="8" fill="url(#cardGrad)" stroke="#3B82F6" stroke-width="2" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="235" height="38" rx="8" fill="#1E2A44"/>
+    <text x="14" y="24" class="txt-title" fill="#60A5FA">第 3 區 (催蕾急冷)</text>
+    <rect x="155" y="10" width="66" height="18" rx="4" fill="#3B82F6" opacity="0.3"/>
+    <text x="188" y="23" text-anchor="middle" class="txt-badge tag-induction">催蕾期</text>
+    
+    <rect x="12" y="48" width="211" height="50" rx="5" fill="#101A2B" stroke="#2563EB"/>
+    <text x="22" y="66" class="txt-sub" fill="#93C5FD">目前室溫 (冷衝擊設定 16.0°C)</text>
+    <text x="22" y="90" class="txt-num" fill="#60A5FA">16.2 <tspan class="txt-unit">°C</tspan></text>
+
+    <rect x="12" y="104" width="211" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="22" y="122" class="txt-sub">環境濕度 (目標 92.0%)</text>
+    <text x="22" y="146" class="txt-num">91.0 <tspan class="txt-unit">% RH</tspan></text>
+
+    <rect x="12" y="160" width="102" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="20" y="176" class="txt-sub">CO2 換氣閥</text>
+    <text x="20" y="200" class="txt-num" font-size="16">890 <tspan class="txt-unit">ppm</tspan></text>
+
+    <rect x="121" y="160" width="102" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="129" y="176" class="txt-sub">蒸發器 ΔP</text>
+    <text x="129" y="200" class="txt-num" font-size="16" fill="#F59E0B">42 <tspan class="txt-unit">Pa</tspan></text>
+
+    <rect x="12" y="222" width="211" height="58" rx="5" fill="#132035"/>
+    <text x="22" y="238" class="txt-sub" fill="#93C5FD">除霜狀態機：正常製冷 (基準 31 Pa)</text>
+    <rect x="22" y="248" width="42" height="22" rx="3" fill="#10B981"/>
+    <text x="43" y="263" text-anchor="middle" class="txt-badge" fill="#FFFFFF">全力冷</text>
+    <rect x="72" y="248" width="42" height="22" rx="3" fill="#10B981" opacity="0.2"/>
+    <text x="93" y="263" text-anchor="middle" class="txt-badge" fill="#10B981">送風</text>
+    <rect x="122" y="248" width="42" height="22" rx="3" fill="#10B981" opacity="0.2"/>
+    <text x="143" y="263" text-anchor="middle" class="txt-badge" fill="#10B981">微霧</text>
+    <rect x="172" y="248" width="42" height="22" rx="3" fill="#EAB308" opacity="0.2"/>
+    <text x="193" y="263" text-anchor="middle" class="txt-badge" fill="#EAB308">補光</text>
+  </g>
+
+  <!-- 右上角：總用電需量指針儀表區 -->
+  <g transform="translate(765, 66)">
+    <rect width="244" height="292" rx="8" fill="url(#cardGrad)" stroke="#2E384D" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="244" height="38" rx="8" fill="#1E2638"/>
+    <text x="14" y="24" class="txt-title">能耗需量監控 (TOU)</text>
+
+    <path d="M 42 165 A 80 80 0 0 1 202 165" fill="none" stroke="#252D3D" stroke-width="16" stroke-linecap="round"/>
+    <path d="M 42 165 A 80 80 0 0 1 175 105" fill="none" stroke="url(#gaugeGrad)" stroke-width="16" stroke-linecap="round"/>
+    
+    <text x="122" y="145" text-anchor="middle" class="txt-num" font-size="28" fill="#F8FAFC">34.2</text>
+    <text x="122" y="162" text-anchor="middle" class="txt-sub">即時功率 (kW)</text>
+    <text x="42" y="186" class="txt-sub">0</text>
+    <text x="112" y="186" class="txt-sub">契約45</text>
+    <text x="195" y="186" class="txt-sub">60</text>
+
+    <rect x="14" y="196" width="216" height="84" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="24" y="215" class="txt-sub">尖峰時段 (RW 10)：<tspan fill="#F8FAFC" font-weight="bold">42.5 度</tspan></text>
+    <text x="24" y="238" class="txt-sub">半尖峰段 (RW 12)：<tspan fill="#F8FAFC" font-weight="bold">68.1 度</tspan></text>
+    <text x="24" y="261" class="txt-sub">離峰時段 (RW 14)：<tspan fill="#F8FAFC" font-weight="bold">115.4 度</tspan></text>
+  </g>
+
+  <!-- ==================== 第二列卡片 ==================== -->
+
+  <!-- 第 4 區卡片：出菇期 -->
+  <g transform="translate(15, 372)">
+    <rect width="235" height="292" rx="8" fill="url(#cardGrad)" stroke="#2E384D" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="235" height="38" rx="8" fill="#1E2638"/>
+    <text x="14" y="24" class="txt-title">第 4 區</text>
+    <rect x="155" y="10" width="66" height="18" rx="4" fill="#10B981" opacity="0.25"/>
+    <text x="188" y="23" text-anchor="middle" class="txt-badge tag-fruiting">出菇期</text>
+    
+    <rect x="12" y="48" width="211" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="22" y="66" class="txt-sub">當前室溫 (目標 18.0°C)</text>
+    <text x="22" y="90" class="txt-num">17.8 <tspan class="txt-unit">°C</tspan></text>
+
+    <rect x="12" y="104" width="211" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="22" y="122" class="txt-sub">環境濕度 (目標 82.0%)</text>
+    <text x="22" y="146" class="txt-num">83.5 <tspan class="txt-unit">% RH</tspan></text>
+
+    <rect x="12" y="160" width="102" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="20" y="176" class="txt-sub">CO2 換氣閥</text>
+    <text x="20" y="200" class="txt-num" font-size="16">950 <tspan class="txt-unit">ppm</tspan></text>
+
+    <rect x="121" y="160" width="102" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="129" y="176" class="txt-sub">蒸發器 ΔP</text>
+    <text x="129" y="200" class="txt-num" font-size="16" fill="#38BDF8">35 <tspan class="txt-unit">Pa</tspan></text>
+
+    <rect x="12" y="222" width="211" height="58" rx="5" fill="#161D2B"/>
+    <text x="22" y="238" class="txt-sub">執行機構運轉狀態</text>
+    <rect x="22" y="248" width="42" height="22" rx="3" fill="#10B981" opacity="0.2"/>
+    <text x="43" y="263" text-anchor="middle" class="txt-badge" fill="#10B981">製冷</text>
+    <rect x="72" y="248" width="42" height="22" rx="3" fill="#10B981" opacity="0.2"/>
+    <text x="93" y="263" text-anchor="middle" class="txt-badge" fill="#10B981">送風</text>
+    <rect x="122" y="248" width="42" height="22" rx="3" fill="#10B981" opacity="0.2"/>
+    <text x="143" y="263" text-anchor="middle" class="txt-badge" fill="#10B981">微霧</text>
+    <rect x="172" y="248" width="42" height="22" rx="3" fill="#EAB308" opacity="0.2"/>
+    <text x="193" y="263" text-anchor="middle" class="txt-badge" fill="#EAB308">補光</text>
+  </g>
+
+  <!-- 第 5 區卡片：採收回乾期 -->
+  <g transform="translate(265, 372)">
+    <rect width="235" height="292" rx="8" fill="url(#cardGrad)" stroke="#2E384D" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="235" height="38" rx="8" fill="#1E2638"/>
+    <text x="14" y="24" class="txt-title">第 5 區</text>
+    <rect x="155" y="10" width="66" height="18" rx="4" fill="#F59E0B" opacity="0.25"/>
+    <text x="188" y="23" text-anchor="middle" class="txt-badge tag-drying">回乾期</text>
+    
+    <rect x="12" y="48" width="211" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="22" y="66" class="txt-sub">當前室溫 (目標 23.0°C)</text>
+    <text x="22" y="90" class="txt-num">22.8 <tspan class="txt-unit">°C</tspan></text>
+
+    <rect x="12" y="104" width="211" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="22" y="122" class="txt-sub">環境濕度 (目標 65.0%)</text>
+    <text x="22" y="146" class="txt-num">64.0 <tspan class="txt-unit">% RH</tspan></text>
+
+    <rect x="12" y="160" width="102" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="20" y="176" class="txt-sub">CO2 換氣閥</text>
+    <text x="20" y="200" class="txt-num" font-size="16">2,100 <tspan class="txt-unit">ppm</tspan></text>
+
+    <rect x="121" y="160" width="102" height="50" rx="5" fill="#141A24" stroke="#242E42"/>
+    <text x="129" y="176" class="txt-sub">蒸發器 ΔP</text>
+    <text x="129" y="200" class="txt-num" font-size="16" fill="#38BDF8">30 <tspan class="txt-unit">Pa</tspan></text>
+
+    <rect x="12" y="222" width="211" height="58" rx="5" fill="#161D2B"/>
+    <text x="22" y="238" class="txt-sub">執行機構運轉狀態</text>
+    <rect x="22" y="248" width="42" height="22" rx="3" fill="#1E293B"/>
+    <text x="43" y="263" text-anchor="middle" class="txt-badge" fill="#64748B">冷氣</text>
+    <rect x="72" y="248" width="42" height="22" rx="3" fill="#10B981" opacity="0.2"/>
+    <text x="93" y="263" text-anchor="middle" class="txt-badge" fill="#10B981">通風</text>
+    <rect x="122" y="248" width="42" height="22" rx="3" fill="#EF4444" opacity="0.2"/>
+    <text x="143" y="263" text-anchor="middle" class="txt-badge" fill="#EF4444">停霧</text>
+    <rect x="172" y="248" width="42" height="22" rx="3" fill="#1E293B"/>
+    <text x="193" y="263" text-anchor="middle" class="txt-badge" fill="#64748B">全黑</text>
+  </g>
+
+  <!-- 右下角：系統通訊與即時警報監控視窗 -->
+  <g transform="translate(515, 372)">
+    <rect width="494" height="292" rx="8" fill="url(#cardGrad)" stroke="#2E384D" filter="url(#cardShadow)"/>
+    <rect x="0" y="0" width="494" height="38" rx="8" fill="#1E2638"/>
+    <text x="14" y="24" class="txt-title">系統通訊診斷與智慧日誌 (Modbus / Auto-Zero)</text>
+
+    <rect x="14" y="48" width="466" height="42" rx="5" fill="#141A24" stroke="#242E42"/>
+    <circle cx="32" cy="69" r="5" fill="#10B981"/>
+    <text x="45" y="73" class="txt-sub" fill="#F8FAFC">MOXA MB3180 閘道器：<tspan fill="#10B981">正常 (Socket Connected)</tspan></text>
+    <text x="310" y="73" class="txt-sub">輪詢週期: <tspan fill="#38BDF8">120 ms</tspan></text>
+
+    <rect x="14" y="98" width="466" height="180" rx="5" fill="#10141D" stroke="#1E2638"/>
+    
+    <g transform="translate(24, 122)">
+      <circle cx="4" cy="-4" r="3" fill="#10B981"/>
+      <text x="16" y="0" class="txt-sub" fill="#64748B">[14:32:00] <tspan fill="#94A3B8">第 3 區</tspan> 自動基準校準 (Auto-Zero) 成功，無霜基準壓差鎖定 31 Pa。</text>
+    </g>
+
+    <g transform="translate(24, 154)">
+      <circle cx="4" cy="-4" r="3" fill="#38BDF8"/>
+      <text x="16" y="0" class="txt-sub" fill="#64748B">[14:15:22] <tspan fill="#94A3B8">台電時間電價</tspan> 系統進入半尖峰時段，微積分電能費率切換為 4.2 元/度。</text>
+    </g>
+
+    <g transform="translate(24, 186)">
+      <circle cx="4" cy="-4" r="3" fill="#F59E0B"/>
+      <text x="16" y="0" class="txt-sub" fill="#64748B">[13:50:11] <tspan fill="#F59E0B">第 4 區</tspan> 盤管感溫檢測正常 (T_coil: 2.1°C，換熱溫差 15.7°C 處於安全裕度)。</text>
+    </g>
+
+    <g transform="translate(24, 218)">
+      <circle cx="4" cy="-4" r="3" fill="#10B981"/>
+      <text x="16" y="0" class="txt-sub" fill="#64748B">[12:00:00] <tspan fill="#94A3B8">系統安全</tspan> 100 天授權時數驗證通過 (已運作 142/2400 小時)。</text>
+    </g>
+
+    <g transform="translate(24, 250)">
+      <circle cx="4" cy="-4" r="3" fill="#64748B"/>
+      <text x="16" y="0" class="txt-sub" fill="#475569">[08:00:00] 批次生長配方巡檢：5 個獨立分區參數對位無偏移。</text>
+    </g>
+  </g>
+
+  <!-- ==================== 底部導航欄 (Navigation Dock) ==================== -->
+  <g transform="translate(0, 684)">
+    <rect width="1024" height="84" fill="#0D1117"/>
+    <line x1="0" y1="0" x2="1024" y2="0" stroke="#242E42" stroke-width="1.5"/>
+
+    <!-- Tab 1: 首頁 (Active) -->
+    <rect x="20" y="12" width="180" height="56" rx="6" fill="#3B82F6"/>
+    <text x="110" y="45" text-anchor="middle" class="txt-title" font-size="16">首頁總覽</text>
+
+    <!-- Tab 2: 分區獨立詳情 -->
+    <rect x="220" y="12" width="180" height="56" rx="6" fill="#161D2B" stroke="#2A3447"/>
+    <text x="310" y="45" text-anchor="middle" class="txt-title" font-size="15" fill="#94A3B8">分區詳細調控</text>
+
+    <!-- Tab 3: 能耗分析 -->
+    <rect x="420" y="12" width="180" height="56" rx="6" fill="#161D2B" stroke="#2A3447"/>
+    <text x="510" y="45" text-anchor="middle" class="txt-title" font-size="15" fill="#94A3B8">需量與能耗報表</text>
+
+    <!-- Tab 4: 生長配方庫 -->
+    <rect x="620" y="12" width="180" height="56" rx="6" fill="#161D2B" stroke="#2A3447"/>
+    <text x="710" y="45" text-anchor="middle" class="txt-title" font-size="15" fill="#94A3B8">香菇生長配方庫</text>
+
+    <!-- Tab 5: 授權與設定 -->
+    <rect x="820" y="12" width="184" height="56" rx="6" fill="#161D2B" stroke="#2A3447"/>
+    <text x="912" y="45" text-anchor="middle" class="txt-title" font-size="15" fill="#94A3B8">授權與通訊設定</text>
+  </g>
+</svg>
+
+</body>
+</html>
